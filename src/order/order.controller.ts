@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
+import { ApiParam } from '@nestjs/swagger';
 
 @Controller('order')
 export class OrderController {
@@ -30,5 +31,17 @@ export class OrderController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.orderService.remove(+id);
+  }
+
+  @ApiParam({name:'id', description:'Order id'})
+  @Patch('approve/:id')
+  approveOrder(@Param('id') id:string) {
+    return this.orderService.approveOrder(+id)
+  }
+
+  @ApiParam({name:'id', description:'Order id'})
+  @Patch('reject/:id')
+  rejectOrder(@Param('id') id:string) {
+    return this.orderService.rejectOrder(+id)
   }
 }

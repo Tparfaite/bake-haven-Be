@@ -68,4 +68,24 @@ export class OrderService {
   const deleteOrder= await this.orderRepository.delete(id)
     return deleteOrder;
   }
+
+  async approveOrder(id: number) {
+    const presentOrder= await this.orderRepository.findOne({where:{orderId:id}});
+    if(!presentOrder){
+      throw error("the order not exist")
+    }
+    presentOrder.status='approved';
+    return this.orderRepository.save(presentOrder);
+  }
+
+  async rejectOrder(id: number) {
+    const presentOrder= await this.orderRepository.findOne({where:{orderId:id}});
+    if(!presentOrder){
+      throw error("the order not exist")
+    }
+    presentOrder.status='cancelled';
+    return this.orderRepository.save(presentOrder);
+  }
+
+  
 }
